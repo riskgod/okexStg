@@ -1,4 +1,5 @@
 const { getMonthlyCandles } = require('./service/bian')
+const { addNumbers, multiplyNumbers, subtractNumbers, divideNumbers } = require('./bignumber')
 
 async function main() {
   const data = await getMonthlyCandles();
