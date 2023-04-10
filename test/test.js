@@ -9,6 +9,7 @@ async function main() {
 
   for (let i = 0; i < data.length; i++) {
     // if () 波动比例大于2 个点 data 重新rebalance
+    console.log('我们计算到了第：：：', i)
     const percentage = ((data - data[i - 1]) / data) * 100;
     if (percentage > 1) {
       const [s, h] = myStrategy(data[i], sourceBalance, holderBtc, data[i - 1])
@@ -20,8 +21,8 @@ async function main() {
   console.log(results);
 }
 function myStrategy(data, sourceBalance, holderBtc, lastDayPrice) {
-  // console.log("sourceBalance   ", sourceBalance)
-  // console.log("holderBtc    ", holderBtc)
+  console.log("sourceBalance   ", sourceBalance)
+  console.log("holderBtc    ", holderBtc)
   // const yingli = data * holderBtc - lastDayPrice * holderBtc
   const s = sourceBalance - ((sourceBalance - holderBtc * data) / 2)
   // const h = holderBtc + ((sourceBalance - holderBtc * data) / 2) / data
