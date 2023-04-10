@@ -1,0 +1,16 @@
+{
+  "name": "rebalace_okex",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^18.15.11",
+    "axios": "^1.3.5",
+    "bignumber.js": "^9.1.1"
+  }
+}
