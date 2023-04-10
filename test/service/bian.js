@@ -33,11 +33,13 @@ async function fetchCandlesInChunks(symbol, interval, startTime, endTime, chunkS
 }
 
 async function getMonthlyCandles() {
-  const symbol = 'APTUSDT';
+  const symbol = 'BTCUSDT';
   const interval = '1m'; // 1 分钟的 K 线
   const currentTime = new Date();
-  const startTime = new Date(currentTime.getTime() - (30 * 24 * 60 * 60 * 1000)).getTime();
-  const endTime = currentTime.getTime();
+  // const startTime = new Date(currentTime.getTime() - (30 * 24 * 60 * 60 * 1000)).getTime();
+  // const endTime = currentTime.getTime();
+  const startTime = '1667232000000'
+  const endTime = '1669823999999'
   const chunkSize = 6 * 60 * 60 * 1000; // 每次获取 6 小时的数据
 
   const candleData = await fetchCandlesInChunks(symbol, interval, startTime, endTime, chunkSize);
