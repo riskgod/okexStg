@@ -19,7 +19,8 @@ async function main() {
       results.push(s);
     }
   }
-  console.log(results);
+  console.log(`价格变化从 ${data[0]} 到 ${data[data.length - 1]}`)
+  console.log(`最后的盈利变化是 ${results[0]}  ${results[results.length - 1]}`);
 }
 function myStrategy(data, sourceBalance, holderBtc, lastDayPrice) {
   console.log("sourceBalance   ", sourceBalance)
