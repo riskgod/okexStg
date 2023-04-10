@@ -26,7 +26,7 @@ async function getMonthlyCandles() {
   const candleData = await getCandleData(symbol, granularity, startTime, endTime);
   const closePrices = candleData.map((candle) => parseFloat(candle[4]));
 
-  console.log('1-Minute Candle Close Prices:', closePrices);
+  return closePrices
 }
 
 async function main() {
