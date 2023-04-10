@@ -19,8 +19,13 @@ async function main() {
       results.push(s);
     }
   }
+
+  const newR = results.sort((a, b) => a - b);
+  const newD = data.sort((a, b) => b - a);
   console.log(`价格变化从 ${data[0]} 到 ${data[data.length - 1]}`)
   console.log(`最后的盈利变化是 ${results[0]}  ${results[results.length - 1]}`);
+  console.log(`最大价格为 ${newD[0]} , 最大盈利为 ${newR[newR.length - 1]}`)
+
 }
 function myStrategy(data, sourceBalance, holderBtc, lastDayPrice) {
   console.log("sourceBalance   ", sourceBalance)
