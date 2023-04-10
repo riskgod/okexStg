@@ -1,9 +1,11 @@
 const axios = require('axios');
+
 const baseUrl = 'https://www.okex.com';
 
 async function getCandleData(symbol, granularity, startTime, endTime) {
   const path = `/api/v5/market/candles`;
   const url = `${baseUrl}${path}?instId=${symbol}&after=${startTime}&before=${endTime}&bar=${granularity}`;
+
   try {
     const response = await axios.get(url);
     if (response.status === 200) {
@@ -16,14 +18,29 @@ async function getCandleData(symbol, granularity, startTime, endTime) {
   }
 }
 
+async function fetchCandlesInChunks(symbol, granularity, startTime, endTime, chunkSize) {
+  let currentStartTime = startTime;
+  const results = [];
+
+  while (currentStartTime < endTime) {
+    const currentEndTime = Math.min(currentStartTime + chunkSize, endTime);
+    const chunkData = await getCandleData(symbol, granularity, currentStartTime, currentEndTime);
+    results.push(...chunkData);
+    currentStartTime = currentEndTime;
+  }
+
+  return results;
+}
+
 async function getMonthlyCandles() {
   const symbol = 'BTC-USDT';
   const granularity = '60'; // 1 分钟的 K 线
   const currentTime = new Date();
   const startTime = new Date(currentTime.getTime() - (30 * 24 * 60 * 60 * 1000)).getTime();
   const endTime = currentTime.getTime();
+  const chunkSize = 6 * 60 * 60 * 1000; // 每次获取 6 小时的数据
 
-  const candleData = await getCandleData(symbol, granularity, startTime, endTime);
+  const candleData = await fetchCandlesInChunks(symbol, granularity, startTime, endTime, chunkSize);
   const closePrices = candleData.map((candle) => parseFloat(candle[4]));
 
   return closePrices
