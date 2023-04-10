@@ -12,7 +12,7 @@ async function main() {
     // if () 波动比例大于2 个点 data 重新rebalance
     const percentage = ((data[i] - data[i - 1]) / data[i]) * 100;
     console.log(`我们计算到了第 ${i} 个, 波动比 ${percentage}`)
-    if (Math.abs(percentage) > 0.3) {
+    if (Math.abs(percentage) > 1) {
       const [s, h] = myStrategy(data[i], sourceBalance, holderBtc, data[i - 1])
       sourceBalance = s;
       holderBtc = h
