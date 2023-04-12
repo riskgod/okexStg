@@ -14,7 +14,7 @@ ws.on('open', () => {
 ws.on('message', message => {
   const response = JSON.parse(message);
 
-  if (response.hasOwnProperty('arg') && response.arg.channel === 'tickers' && response.data.length > 0) {
+  if (response.hasOwnProperty('arg') && response.arg.channel === 'tickers' && response.hasOwnProperty('data') && response.data.length > 0) {
     console.log(`价格更新：${symbol} 最新价格：${response.data[0].last}`);
   }
 });
