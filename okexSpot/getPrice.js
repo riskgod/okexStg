@@ -1,10 +1,10 @@
 const WebSocket = require('ws');
 
-// 请将 'btc-usdt' 替换为您关注的货币对，例如 'eth-usdt'
-const symbol = 'btc-usdt';
+// 请将 'BTC-USDT' 替换为您关注的货币对，例如 'ETH-USDT'
+const symbol = 'BTC-USDT';
 
 // 连接到 OKEx WebSocket API
-const ws = new WebSocket(`wss://ws.okex.com:8443/ws/v5/public?brokerId=9999`);
+const ws = new WebSocket('wss://ws.okex.com:8443/ws/v5/public');
 
 // 发送订阅消息
 function subscribe(ws) {
