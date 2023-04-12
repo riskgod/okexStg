@@ -6,21 +6,6 @@ const symbol = 'BTC-USDT';
 // 连接到 OKEx WebSocket API
 const ws = new WebSocket('wss://ws.okex.com:8443/ws/v5/public');
 
-// 发送订阅消息
-function subscribe(ws) {
-  const request = {
-    op: 'subscribe',
-    args: [
-      {
-        channel: 'tickers',
-        instId: symbol,
-      },
-    ],
-  };
-
-  ws.send(JSON.stringify(request));
-}
-
 ws.on('open', () => {
   console.log(`WebSocket 连接已打开，订阅 ${symbol} 行情价格。`);
   subscribe(ws);
@@ -41,3 +26,36 @@ ws.on('close', () => {
 ws.on('error', error => {
   console.error(`WebSocket 发生错误：`, error);
 });
+
+// 发送订阅消息
+function subscribe(ws) {
+  const request = {
+    op: 'subscribe',
+    args: [
+      {
+        channel: 'tickers',
+        instId: symbol,
+      },
+    ],
+  };
+
+  ws.send(JSON.stringify(request));
+}
+
+// 发送登录消息
+function login(ws) {
+  const timestamp = Date.now();
+  const request = {
+    op: 'login',
+    args: [
+      {
+        apiKey: '', // 请填写您的 API Key
+        passphrase: '', // 请填写您的 API Passphrase
+        timestamp: timestamp,
+        sign: '', // 请填写 API Secret 对应的签名，根据 OKEx API 文档生成
+      },
+    ],
+  };
+
+  ws.send(JSON.stringify(request));
+}
