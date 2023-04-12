@@ -14,7 +14,7 @@ ws.on('open', () => {
 ws.on('message', message => {
   const response = JSON.parse(message);
 
-  if (response.hasOwnProperty('arg') && response.arg.channel === 'tickers') {
+  if (response.hasOwnProperty('arg') && response.arg.channel === 'tickers' && response.data.length > 0) {
     console.log(`价格更新：${symbol} 最新价格：${response.data[0].last}`);
   }
 });
@@ -35,24 +35,6 @@ function subscribe(ws) {
       {
         channel: 'tickers',
         instId: symbol,
-      },
-    ],
-  };
-
-  ws.send(JSON.stringify(request));
-}
-
-// 发送登录消息
-function login(ws) {
-  const timestamp = Date.now();
-  const request = {
-    op: 'login',
-    args: [
-      {
-        apiKey: '', // 请填写您的 API Key
-        passphrase: '', // 请填写您的 API Passphrase
-        timestamp: timestamp,
-        sign: '', // 请填写 API Secret 对应的签名，根据 OKEx API 文档生成
       },
     ],
   };
