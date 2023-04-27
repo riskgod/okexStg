@@ -1,7 +1,7 @@
 const axios = require('axios');
 const math = require('mathjs');
 
-const OKEX_API_URL = 'https://www.okex.com/api/v5/market/candles?instId={instrument_id}&after={start_time}&before={end_time}&bar=60';
+const OKEX_API_URL = 'https://www.okex.com/api/v5/market/candles?instId={instrument_id}&after={start_time}&before={end_time}&bar=60S';
 const TWO_WEEKS_MS = 2 * 7 * 24 * 60 * 60 * 1000;
 
 // 替换为您感兴趣的交易对，例如："BTC-USDT"
