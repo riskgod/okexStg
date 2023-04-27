@@ -1,7 +1,7 @@
 const axios = require('axios');
 const { std } = require('mathjs');
 
-const OKEX_API_URL = 'https://www.okex.com/api/spot/v3/instruments/{instrument_id}/candles?granularity=60&start={start_time}&end={end_time}';
+const OKEX_API_URL = 'https://www.okex.com/api/v5/market/candles?instId={instrument_id}&after={start_time}&before={end_time}&bar=60';
 const TWO_WEEKS_MS = 2 * 7 * 24 * 60 * 60 * 1000;
 
 // 替换为您感兴趣的交易对，例如："BTC-USDT"
@@ -9,15 +9,15 @@ const instrument_id = 'BTC-USDT';
 
 async function calculateStdDevMinuteClosePrice() {
   try {
-    const startTime = new Date(Date.now() - TWO_WEEKS_MS).toISOString();
-    const endTime = new Date().toISOString();
+    const startTime = Math.floor((Date.now() - TWO_WEEKS_MS) / 1000);
+    const endTime = Math.floor(Date.now() / 1000);
 
     const response = await axios.get(
       OKEX_API_URL.replace('{instrument_id}', instrument_id)
         .replace('{start_time}', startTime)
         .replace('{end_time}', endTime)
     );
-    const data = response.data;
+    const data = response.data.data;
 
     const closePrices = data.map(item => parseFloat(item[4]));
     const priceChanges = closePrices.slice(1).map((price, index) => (price - closePrices[index]) / closePrices[index]);
