@@ -1,7 +1,7 @@
 const axios = require('axios');
 const math = require('mathjs');
 
-const OKEX_API_URL = 'https://www.okex.com/api/v5/market/candles?instId={instrument_id}&after={start_time}&before={end_time}&bar=1m';
+const OKEX_API_URL = 'https://www.okex.com/api/v5/market/candles?instId={instrument_id}&startTime={start_time}&endTime={end_time}&bar=1m';
 const TWO_WEEKS_MS = 2 * 7 * 24 * 60 * 60 * 1000;
 const REQUEST_INTERVAL_MS = 1 * 60 * 60 * 1000; // 请求1小时的数据
 const REQUEST_DELAY_MS = 200; // 200毫秒的请求延迟
