@@ -20,8 +20,10 @@ async function calculateStdDevMinuteClosePrice() {
     const data = response.data.data;
 
     const closePrices = data.map(item => parseFloat(item[4]));
+    console.log('closePrices', closePrices)
     const priceChanges = closePrices.slice(1).map((price, index) => (price - closePrices[index]) / closePrices[index]);
 
+    console.log('priceChanges', priceChanges)
     const stdDev = math.std(priceChanges, 'uncorrected');
 
     console.log(`Standard Deviation of Close Price Changes for ${instrument_id} in the Last 2 Weeks:`);
