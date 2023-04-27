@@ -20,10 +20,12 @@ ws.on('message', message => {
 });
 
 ws.on('close', () => {
+  // 电话告警 重启服务
   console.log(`WebSocket 连接已关闭。`);
 });
 
 ws.on('error', error => {
+  // 电话告警 重启服务
   console.error(`WebSocket 发生错误：`, error);
 });
 
