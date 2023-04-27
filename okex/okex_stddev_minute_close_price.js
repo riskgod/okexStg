@@ -9,8 +9,8 @@ const instrument_id = 'BTC-USDT';
 
 async function calculateStdDevMinuteClosePrice() {
   try {
-    const startTime = Math.floor((Date.now() - TWO_WEEKS_MS) / 1000);
-    const endTime = Math.floor(Date.now() / 1000);
+    const startTime = new Date(Date.now() - TWO_WEEKS_MS).toISOString();
+    const endTime = new Date().toISOString();
 
     const response = await axios.get(
       OKEX_API_URL.replace('{instrument_id}', instrument_id)
@@ -19,11 +19,21 @@ async function calculateStdDevMinuteClosePrice() {
     );
     const data = response.data.data;
 
-    const closePrices = data.map(item => parseFloat(item[4]));
-    console.log('closePrices', closePrices)
-    const priceChanges = closePrices.slice(1).map((price, index) => (price - closePrices[index]) / closePrices[index]);
+    if (!data || data.length === 0) {
+      console.error('No data received from OKEx API.');
+      console.log(response.data);
+      return;
+    }
 
-    console.log('priceChanges', priceChanges)
+    const closePrices = data.map(item => parseFloat(item[4]));
+
+    if (closePrices.length === 0) {
+      console.error('Close prices array is empty.');
+      console.log(data);
+      return;
+    }
+
+    const priceChanges = closePrices.slice(1).map((price, index) => (price - closePrices[index]) / closePrices[index]);
     const stdDev = math.std(priceChanges, 'uncorrected');
 
     console.log(`Standard Deviation of Close Price Changes for ${instrument_id} in the Last 2 Weeks:`);
