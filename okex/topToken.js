@@ -1,26 +1,33 @@
 const axios = require('axios');
 
-const OKEX_API_URL = 'https://www.okex.com/api/spot/v3/instruments/ticker/24h';
+const COINGECKO_API_URL = 'https://api.coingecko.com/api/v3/exchanges/okex';
+const TWO_WEEKS_MS = 2 * 7 * 24 * 60 * 60 * 1000; // 两周的毫秒数
 
-async function getTopTenTokens() {
+async function getTopTwentyTokens() {
   try {
-    const response = await axios.get(OKEX_API_URL);
-    const data = response.data;
+    const response = await axios.get(COINGECKO_API_URL);
+    const data = response.data.tickers;
+
+    // 过滤过去两周的数据
+    const twoWeeksData = data.filter(item => {
+      const timestamp = new Date(item.last_fetch_at).getTime();
+      return Date.now() - timestamp <= TWO_WEEKS_MS;
+    });
 
     // 根据交易量对数据进行排序
-    const sortedData = data.sort((a, b) => parseFloat(b.quote_volume_24h) - parseFloat(a.quote_volume_24h));
+    const sortedData = twoWeeksData.sort((a, b) => parseFloat(b.trade_volume_24h_btc_normalized) - parseFloat(a.trade_volume_24h_btc_normalized));
 
-    // 获取排名前十的Token
-    const topTenTokens = sortedData.slice(0, 10).map(item => ({
-      symbol: item.instrument_id,
-      tradingVolume: item.quote_volume_24h,
+    // 获取排名前20的Token
+    const topTwentyTokens = sortedData.slice(0, 20).map(item => ({
+      symbol: item.base + '/' + item.target,
+      tradingVolume: item.trade_volume_24h_btc_normalized,
     }));
 
-    console.log('Top 10 Tokens by Trading Volume:');
-    console.log(topTenTokens);
+    console.log('Top 20 Tokens by Trading Volume in the Last 2 Weeks:');
+    console.log(topTwentyTokens);
   } catch (error) {
     console.error(`Error fetching data: ${error}`);
   }
 }
 
-getTopTenTokens();
+getTopTwentyTokens();
