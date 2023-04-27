@@ -9,8 +9,8 @@ const instrument_id = 'BTC-USDT';
 
 async function calculateStdDevMinuteClosePrice() {
   try {
-    const startTime = new Date(Date.now() - TWO_WEEKS_MS).toISOString();
-    const endTime = new Date().toISOString();
+    const startTime = Math.floor((Date.now() - TWO_WEEKS_MS) / 1000);
+    const endTime = Math.floor(Date.now() / 1000);
 
     const response = await axios.get(
       OKEX_API_URL.replace('{instrument_id}', instrument_id)
